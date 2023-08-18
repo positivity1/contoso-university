@@ -1,0 +1,29 @@
+name: Pack Contoso_University_Core
+
+# Triggers our workflow when something is pushed into the contents folder, ignores other pushes
+on:
+  push:
+    paths:
+    - contents/**
+    workflow_dispatch:
+
+jobs:
+  build:
+    run-on: windows-latest
+    steps:
+    - name: Checkout my code 
+      uses: actions/checkout@v2
+    - name: Pack solution (turn it into managed)
+      uses: microsoft/powerplatform-actions/pack-solution@v0
+      with:
+          solution-file: out/contoso_university_core.zip
+          solution-folder: contents
+          solution-type: Both
+   - name: Upload our managed solution to GitHub
+     uses: actions/upload-artifact@v2
+     with:
+        name: packed-solution
+        path: out/
+    
+
+    
